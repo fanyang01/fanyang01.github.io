@@ -1,0 +1,41 @@
+<!-- side.html -->
+<md-content layout="column">
+	<div layout="column" flex>
+		<!-- searchBar -->
+		<div layout layout-padding flex>
+			<md-input-container flex>
+				<label><i class="fa fa-search" style="margin-right: 0.5em"></i><span>Search</span></label>
+				<input type="text" ng-model="search.q">
+			</md-input-container>
+		</div>
+		<!-- category -->
+		<div layout='column'>
+				<md-button class="sidenav-button md-primary" ng-click="toggleCategory()" flex>
+					<i ng-class="{'fa fa-folder-open-o': categoryOpen, 'fa fa-folder-o': !categoryOpen}" class="sidenav-icon"></i>
+					<span>Category</span>
+				</md-button>
+				<md-list ng-show="categoryOpen" layout="column" flex>
+					<md-list-item ng-repeat="category in categories" layout flex>
+					<md-button ng-href='/categories/{{category}}' class="md-default-theme sidenav-button" flex>{{category}}</md-button>
+					</md-list-item>
+				</md-list>
+		</div>
+		<md-divider></md-divider>
+		<!-- tag -->
+		<div layout="column">
+				<md-button class="sidenav-button md-primary" ng-click="toggleTag()" flex>
+					<i ng-class="{'fa fa-angle-up': tagOpen, 'fa fa-angle-down': !tagOpen}" class="sidenav-icon"></i>
+					<span>Tag</span>
+				</md-button>
+				<md-chips ng-show="tagOpen" readonly="true" layout>
+					<div flex layout-margin>
+						<a ng-href="/tags/{{tag}}" ng-repeat="tag in tags">
+							<md-chip class='md-chip' flex>
+									<md-chip-content> {{tag}} </md-chip-content>
+							</md-chip>
+						</a>
+					</div>
+				</md-chips>
+		</div>
+	</div>
+</md-content>

@@ -1,0 +1,44 @@
+.md-title {
+	font-weight: lighter;
+}
+.md-chip {
+	background: rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+	border-radius: 1em;
+	height: 2em;
+	line-height: 2em;
+	display: block;
+	margin: 0.5em 0.5em 0 0;
+	padding: 0 1em 0 1em;
+	float: left;
+}
+md-chip-content {
+	float: left;
+	display: block;
+	color: black;
+}
+.sidenav-button {
+	border-radius: 0 !important;
+	width: 100%;
+	height: 3em;
+	line-height: 3em;
+	overflow: hidden;
+	text-align: left;
+	text-decoration: none;
+	white-space: normal;
+	margin: 0;
+	padding: 0 1.5em;
+}
+.sidenav-icon {
+	margin-right: 0.6em;
+}
+.article-card {
+	min-width: 66%;
+	max-width: 80%;
+}
+.nav-icon-button {
+	margin: 10px 15px;
+}
+.tag-href {
+	text-decoration: none;
+}

@@ -1,0 +1,12 @@
+/*article.css*/
+.article {
+	padding-left: 6%;
+	padding-right: 6%;
+	font-family: 'Roboto', Helvetica, Arial, sans-serif;
+	color: #2c3e50;
+}
+div.article p {
+	font-weight: 200;
+	font-size: 18px;
+	line-height: 28px;
+}

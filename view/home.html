@@ -1,0 +1,8 @@
+<div layout="column" layout-fill>
+	<div ui-view='toolbar'></div>
+	<div layout flex>
+		<!-- content -->
+		<div ui-view='list' layout-fill></div>
+		<md-sidenav class="md-sidenav-right md-whiteframe-z1" md-component-id="right" md-is-locked-open="$mdMedia('gt-md')" ui-view='side'></md-sidenav>
+	</div>
+</div>
