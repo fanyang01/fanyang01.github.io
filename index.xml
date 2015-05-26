@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>杨帆的博客</title>
-    <link>http://fanyang01.github.io/</link>
+    <link>https://fanyang01.github.io/</link>
     <description>Recent content on 杨帆的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
     <lastBuildDate>Mon, 25 May 2015 23:41:32 +0000</lastBuildDate>
-    <atom:link href="http://fanyang01.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://fanyang01.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Hello, world 你好，世界</title>
-      <link>http://fanyang01.github.io/post/hello/</link>
+      <link>https://fanyang01.github.io/post/hello/</link>
       <pubDate>Mon, 25 May 2015 23:41:32 +0000</pubDate>
       
-      <guid>http://fanyang01.github.io/post/hello/</guid>
+      <guid>https://fanyang01.github.io/post/hello/</guid>
       <description>&lt;p&gt;This is the first post from this blog.&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Powered by &lt;a href=&#34;gohugo.io&#34;&gt;hugo&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
