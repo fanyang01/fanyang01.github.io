@@ -1,0 +1,76 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<dom-module id='trading-history'>
+  <style>
+  	@media(min-width: 600px) {
+  	  div.container {
+  	    max-width: 50em;
+  	    margin: 20px auto;
+  	  }
+  	}
+  </style>
+  <template>
+    <paper-header-panel flex>
+      <paper-toolbar>
+        <paper-icon-button icon="menu" on-click="toggleMainDrawer" paper-drawer-toggle></paper-icon-button>
+        <span class="title">查询股票</span>
+        <div class="flex"></div>
+      </paper-toolbar>
+      <div class="container vertical layout">
+        <more-table id="table" forward-button forward-button-icon="undo" data="[[history]]" headers="[[headers]]">
+        </more-table>
+      </div>
+    </paper-header-panel>
+  </template>
+  <script>
+  Polymer({
+    is: 'trading-history',
+    properties: {
+      history: {
+        type: Array,
+        value: function() {
+          return [];
+        }
+      },
+      headers: Array
+    },
+    behaviors: [ToggleMainDrawerBehavior],
+    ready: function() {
+      this.history = [{
+          id: "10001",
+          name: "Google Inc",
+          type: "Buy",
+          shares: "100",
+          price: "1024"
+        }, {
+          id: "10002",
+          name: "Microsoft Inc",
+          type: "Sell",
+          shares: "100",
+          price: "1024"
+        }, {
+          id: "10001",
+          name: "Apple Inc",
+          type: "Buy",
+          shares: "100",
+          price: "1024"
+        }],
+        this.headers = [{
+          label: "Stock ID",
+          attr: "id"
+        }, {
+          label: "Stock Name",
+          attr: "name"
+        }, {
+          label: "Type",
+          attr: "type"
+        }, {
+          label: "Shares",
+          attr: "shares"
+        }, {
+          label: "Price",
+          attr: "price"
+        }]
+    }
+  })
+  </script>
+</dom-module>

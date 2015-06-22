@@ -1,0 +1,15 @@
+<link rel="import" href="bower_components/more-routing/more-routing.html">
+
+<more-routing-config driver="hash" url-prefix="/"></more-routing-config>
+
+<more-route name="main" path="/">
+	<more-route name="account" path="/"></more-route>
+	<more-route name="sell" path="/sell"></more-route>
+	<more-route name="buy" path="/buy"></more-route>
+	<more-route name="query" path="/query"></more-route>
+	<more-route name="history" path="/history"></more-route>
+	<more-route name="logout" path="/logout"></more-route>
+	<more-route name="password" path="/password"></more-route>
+</more-route>
+
+<more-route name="stock-details" path="/stock-details/:stockCode"></more-route>

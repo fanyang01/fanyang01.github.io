@@ -1,0 +1,119 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+
+<dom-module id='stock-details'>
+	<style>
+		:host {
+			display: block;
+		}
+		paper-material {
+			background-color: white;
+		}
+		.header {
+			height: 2.5em;
+			line-height: 2.5em;
+			font-size: 1.3em;
+			padding: 0 20px;
+			border-bottom: 1px solid rgba(0,0,0,0.2)
+		}
+		.container {
+			@apply(--layout-horizontal)
+		}
+		.item {
+			@apply(--layout-horizontal);
+			padding: 1em;
+			max-width: 12em;
+		}
+		.subheader {
+			font-size: 0.9em;
+			color: rgba(0,0,0,0.6);
+		}
+		.content {
+			font-size: 1.2em;
+			text-align: right;
+		}
+		div.item {
+			border-bottom: 1px solid rgba(0,0,0,0.2);
+		}
+	</style>
+	<template>
+		<more-route name="stock-details" context></more-route>
+		<paper-material elevation="1" class="layout vertical">
+			<div class="header">
+				<span>{{stock.name}}</span>
+				<span>{{stock.ID}}</span>
+			</div>
+			<div class="container">
+				<div class="flex left-side"></div>
+				<div class='flex right-side'>
+					<div class='item'>
+						<div class='subheader'>当前价格</div>
+						<div class='content'>
+							<span>{{stock.currentPrice}}</span>
+							<span></span>
+						</div>
+					</div>
+					<div class='item'>
+						<div class='subheader'>最高买入</div>
+						<div class='content'>
+							<span>{{stock.currentHigh}}</span>
+						</div>
+					</div>
+					<div class='item'>
+						<div class='subheader'>最低售出</div>
+						<div class='content'>
+							<span>{{stock.currentLow}}</span>
+						</div>
+					</div>
+					<div class='item'>
+						<div class='subheader'>本日最高</div>
+						<div class='content'>
+							<span>{{stock.dayHigh}}</span>
+						</div>
+					</div>
+					<div class='item'>
+						<div class='subheader'>本日最低</div>
+						<div class='content'>
+							<span>{{stock.dayLow}}</span>
+						</div>
+					</div>
+					<div class='item'>
+						<div class='subheader'>本周最高</div>
+						<div class='content'>
+							<span>{{stock.weekHigh}}</span>
+						</div>
+					</div>
+					<div class='item'>
+						<div class='subheader'>本周最低</div>
+						<div class='content'>
+							<span>{{stock.weekLow}}</span>
+						</div>
+					</div>
+					<div class='item'>
+						<div class='subheader'>本月最高</div>
+						<div class='content'>
+							<span>{{stock.monthHigh}}</span>
+						</div>
+					</div>
+					<div class='item'>
+						<div class='subheader'>本月最低</div>
+						<div class='content'>
+							<span>{{stock.monthLow}}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</paper-material>
+	</template>
+
+	<script>
+		Polymer({
+			is: 'stock-details',
+			properties: {
+				stock: {
+					type: Object,
+					value: {}
+				}
+			}
+		})
+	</script>
+</dom-module>

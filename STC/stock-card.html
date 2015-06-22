@@ -1,0 +1,37 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<dom-module id='stock-card'>
+  <style>
+  paper-input {
+    background-color: white;
+    padding: 15px;
+  }
+  </style>
+  <template>
+    <paper-material>
+      <paper-toolbar>
+        <span>{{nameAndCode(stock.name, stock.id)}}</span>
+        <div class="flex"></div>
+        <paper-icon-button icon="clear" on-click="_handleClick"></paper-icon-button>
+      </paper-toolbar>
+      <paper-input label="Price" value="{{stock.price}}"></paper-input>
+      <paper-input label="Shares" value="{{stock.shares}}"></paper-input>
+    </paper-material>
+  </template>
+  <script>
+  Polymer({
+    is: 'stock-card',
+    properties: {
+      stock: {
+        type: Object,
+        value: {}
+      }
+    },
+    nameAndCode: function(name, code) {
+      return name + " (" + code + ")";
+    },
+    _handleClick: function(e) {
+    	this.fire('click-close', {name: 'click-close', data: this.stock});
+    }
+  })
+  </script>
+</dom-module>

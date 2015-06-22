@@ -1,0 +1,207 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<dom-module id="account-view">
+  <style>
+  @media(min-width: 600px) {
+    #container {
+      margin: 15px auto;
+      max-width: 48em;
+    }    
+  }
+  @media(max-width: 600px) {
+    #container {
+      margin: 20px 10px;
+      padding: 0 10px;
+    }
+  }
+  
+  #stocks {
+    margin-top: 30px;
+  }
+  </style>
+  <template>
+    <paper-header-panel class="flex">
+      <paper-toolbar>
+        <paper-icon-button icon="menu" on-click="toggleMainDrawer" paper-drawer-toggle></paper-icon-button>
+        <span class="title">账户信息</span>
+      </paper-toolbar>
+      <div class="vertical layout" id="container">
+        <account-fund fund="[[account.fund]]"></account-fund>
+        <holding-stocks stocks="[[account.holdingStocks]]" id='stocks'></holding-stocks>
+      </div>
+    </paper-header-panel>
+  </template>
+  <script>
+  Polymer({
+    is: 'account-view',
+    properties: {
+      account: {
+        type: Object,
+        value: function() {
+          return {};
+        },
+        notify: true
+      }
+    },
+    behaviors: [ToggleMainDrawerBehavior],
+    ready: function() {
+      // talk to server
+      this.set('account.holdingStocks', [{
+        ID: 1234,
+        name: 'Google Inc',
+        shares: 10,
+        holdingPrice: 1024,
+        currentPrice: 2048,
+        profit: 10240
+      }, {
+        ID: 1235,
+        name: 'Apple Inc',
+        shares: 10,
+        holdingPrice: 1024,
+        currentPrice: 2048,
+        profit: 20480
+      }, {
+        ID: 1236,
+        name: 'Microsoft',
+        shares: 10,
+        holdingPrice: 1024,
+        currentPrice: 2048,
+        profit: 20480
+      }, {
+        ID: 1237,
+        name: 'Amazon',
+        shares: 10,
+        holdingPrice: 1024,
+        currentPrice: 2048,
+        profit: 20480
+      }]);
+    }
+  })
+  </script>
+</dom-module>
+<dom-module id="account-fund">
+  <style>
+  :host {
+    display: block;
+  }
+  
+  paper-material {
+    background-color: white;
+  }
+  
+  .header {
+    height: 2.5em;
+    line-height: 2.5em;
+    font-size: 1.3em;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2)
+  }
+  
+  .item {
+    padding: 1.5em;
+    max-width: 12em;
+  }
+  
+  .subheader {
+    font-size: 0.9em;
+    color: rgba(0, 0, 0, 0.6);
+  }
+  
+  .content {
+    font-size: 1.2em;
+    text-align: right;
+  }
+  </style>
+  <template>
+    <paper-material elevation="1" class="layout vertical">
+      <div class="header">账户资金</div>
+      <div class='flex'>
+        <div class='item'>
+          <div class='subheader'>可用资金</div>
+          <div class='content'>
+            <span>{{fund.available}}</span>
+            <span> 元</span>
+          </div>
+        </div>
+        <div class='item'>
+          <div class='subheader'>冻结资金</div>
+          <div class='content'>
+            <span>{{fund.freeze}}</span>
+            <span>元</span>
+          </div>
+        </div>
+      </div>
+    </paper-material>
+  </template>
+  <script>
+  Polymer({
+    is: 'account-fund',
+    properties: {
+      fund: {
+        type: Object
+      }
+    }
+  });
+  </script>
+</dom-module>
+<dom-module is='holding-stocks'>
+  <style>
+  paper-material {
+    background-color: white;
+  }
+  
+  .header {
+    height: 2.5em;
+    line-height: 2.5em;
+    font-size: 1.3em;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2)
+  }
+  </style>
+  <template>
+    <paper-material elevation="1" class="vertical layout">
+      <div class="header">持有股票</div>
+      <more-table forward-button forward-button-alt="See Details" on-click-forward="_handleClickForward" data="{{stocks}}" headers="{{tableHeaders}}">
+      </more-table>
+    </paper-material>
+  </template>
+  <script>
+  Polymer({
+    is: 'holding-stocks',
+    properties: {
+      stocks: {
+        type: Array,
+        notify: true
+      }
+    },
+    _handleClickForward: function(e) {
+      var item = e.detail.item;
+      MoreRouting.navigateTo('stock-details', {
+        stockCode: item.ID
+      })
+    },
+    ready: function() {
+      this.tableHeaders = [{
+          label: '股票代码',
+          attr: 'ID'
+        }, {
+          label: '股票名称',
+          attr: 'name'
+        }, {
+          label: '股数',
+          attr: 'shares'
+        }, {
+          label: '持有价格',
+          attr: 'holdingPrice'
+        }, {
+          label: '当前价格',
+          attr: 'currentPrice'
+        }, {
+          label: '损益',
+          attr: 'profit'
+        }
+
+      ];
+    }
+  })
+  </script>
+</dom-module>

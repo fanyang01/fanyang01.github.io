@@ -1,0 +1,32 @@
+<script>
+	BuySellViewBehavior = {
+		clear: function(e) {
+		  this.splice('selected', 0, this.selected ? this.selected.length : 0);
+		},
+		handleClose: function(e) {
+		  var stock = e.detail.data;
+		  var idx = this.selected.indexOf(stock);
+		  if (idx >= 0) {
+		    this.splice('selected', idx, 1);
+		  }
+		},
+		gotoDetailsPage: function(e) {
+		  var item = e.detail.item;
+		  MoreRouting.navigateTo('stock-details', {
+		    stockCode: item.id
+		  })
+		},
+		invalid: function(len) {
+		  return len < 1;
+		},
+		hideRightIcon: function(largeScreen, selectedLen, panel) {
+		  return largeScreen || (panel === 'main' && selectedLen < 1);
+		},
+		toggleRightDrawer: function(e) {
+		  this.$.rightDrawerPanel.togglePanel();
+		},
+		togglePanelIcon: function(panel) {
+		  return panel === 'main' ? 'chevron-left' : 'chevron-right';
+		}
+	}
+</script>
