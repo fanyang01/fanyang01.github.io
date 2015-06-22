@@ -1,0 +1,40 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+
+<dom-module id='trading-history'>
+	<style></style>
+	<template>
+		<more-table id="table"
+			forward-button
+			forward-button-icon="undo"
+			data="[[history]]"
+			headers="[[headers]]">
+		</more-table>
+	</template>
+
+	<script>
+		Polymer({
+			is: 'trading-history',
+			properties: {
+				history: {
+					type: Array,
+					value: function() {return [];}
+				},
+				headers: Array
+			},
+			ready: function() {
+				this.history = [
+					{id: "10001", name: "Google Inc", type: "Buy", shares: "100", price: "1024"},
+					{id: "10002", name: "Microsoft Inc", type: "Sell", shares: "100", price: "1024"},
+					{id: "10001", name: "Apple Inc", type: "Buy", shares: "100", price: "1024"}
+				],
+				this.headers = [
+					{label: "Stock ID", attr: "id"},
+					{label: "Stock Name", attr: "name"},
+					{label: "Type", attr: "type"},
+					{label: "Shares", attr: "shares"},
+					{label: "Price", attr: "price"}
+				]
+			}
+		})
+	</script>
+</dom-module>

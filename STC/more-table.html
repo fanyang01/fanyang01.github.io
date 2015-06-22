@@ -1,0 +1,308 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<dom-module id='more-table'>
+  <style>
+  .table-container {
+    padding: 20px;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    vertical-align: middle;
+  }
+  
+  tr.head {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  
+  th,
+  td {
+    text-align: right;
+    padding: 10px;
+  }
+  
+  th {
+    font-weight: normal;
+  }
+  
+  th.sortable {
+    cursor: pointer;
+  }
+  
+  .small-icon {
+    --iron-icon-height: 16px;
+    --iron-icon-width: 16px;
+  }
+  
+  .arrow-icon-show {
+    opacity: 1.0;
+  }
+  
+  .arrow-icon-hidden {
+    opacity: 0;
+  }
+  
+  #select-all-checkbox {
+    /*margin-left: 6px;*/
+  }
+  
+  .forward-button {
+    opacity: 0.1;
+  }
+  
+  .forward-button-cell {
+    padding: 2px;
+  }
+  
+  tr:hover .forward-button {
+    opacity: 1.0;
+  }
+  /*for small screens*/
+  
+  .table-cards {
+    padding: 20px;
+  }
+  div.card-header paper-toggle-button {
+    float: left;
+    margin-top: 16px;
+    margin-left: 10px;
+  }
+  div.card-header paper-icon-button {
+    padding: 0 12px;
+    float: right;
+  }
+  div.card-header {
+    display: inline-block;
+    height: 48px;
+    line-height: 48px;
+    width: 100%;
+    border-bottom: 1px dashed rgba(0,0,0,0.2);
+  }
+  .table-card th,
+  td {
+    text-align: right;
+    padding: 8px;
+  }
+  
+  div.table-card {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }
+  </style>
+  <template>
+    <iron-media-query query="{{mediaQuery}}" query-matches="{{largeScreen}}">
+    </iron-media-query>
+    <div class='table-container' hidden$="{{!largeScreen}}">
+      <table>
+        <thead>
+          <tr class="head">
+            <th hidden$="{{!selectable}}">
+              <div id="select-all">
+                <paper-checkbox
+                  on-change="selectAll"
+                  id="select-all-checkbox"
+                  checked="{{isAllSelected(data.length, selected.length)}}">
+                </paper-checkbox>
+              </div>
+            </th>
+            <template is='dom-repeat' items='{{headers}}' id="headerList">
+              <th on-click="sortBy" hidden$="{{item.unsortable}}" class="sortable">
+                <div class="horizontal layout end-justified">
+                  <div class$="{{arrowIconClass(item.attr, attrSortBy)}}">
+                    <iron-icon icon="arrow-drop-down" hidden$="{{!item.incOrder}}" class="small-icon">
+                    </iron-icon>
+                    <iron-icon icon="arrow-drop-up" hidden$="{{item.incOrder}}" class="small-icon">
+                    </iron-icon>
+                  </div>
+                  <div>{{item.label}}</div>
+                </div>
+              </th>
+            </template>
+            <div hidden$='[[!forwardButton]]'>
+              <th></th>
+            </div>
+          </tr>
+        </thead>
+        <tbody>
+          <template is='dom-repeat' id="dataList" items="[[data]]" as="parent" sort='{{sortFunc}}'>
+            <tr>
+              <td hidden$="[[!selectable]]">
+                <div class="vertical layout center">
+                  <paper-checkbox on-change="selectItem" checked="{{isSelected(parent, selected.splices)}}"></paper-checkbox>
+                </div>
+              </td>
+              <template is='dom-repeat' items="{{headers}}" as='header'>
+                <td>{{getAttr(parent, header.attr)}}</td>
+              </template>
+              <td class="forward-button-cell" hidden$="{{!forwardButton}}">
+                <div aria-label="forward">
+                  <paper-icon-button
+                    icon="{{forwardButtonIcon}}"
+                    alt="{{forwardButtonAlt}}"
+                    class="forward-button"
+                    on-click="forwardClicked">
+                  </paper-icon-button>
+                </div>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-cards" hidden$='{{largeScreen}}'>
+      <template is="dom-repeat" items="[[data]]" as="parent" id="dataList2">
+        <div class="table-card">
+          <div class="card-header">
+            <paper-toggle-button
+              on-change="selectItem2"
+              checked="{{isSelected(parent, selected.splices)}}"
+              hidden$="[[!selectable]]">
+            </paper-toggle-button>
+            <paper-icon-button
+              icon="[[forwardButtonIcon]]"
+              on-click="forwardClicked"
+              hidden$="[[!forwardButton]]">
+            </paper-icon-button>
+          </div>
+          <table>
+            <template is="dom-repeat" items="{{headers}}" as="header">
+              <tr>
+                <th>{{header.label}}</th>
+                <td>{{getAttr(parent, header.attr)}}</td>
+              </tr>
+            </template>
+          </table>
+        </div>
+      </template>
+    </div>
+    <array-selector id="selector" items="{{data}}" selected="{{selected}}" multi toggle>
+    </array-selector>
+  </template>
+  <script>
+  Polymer({
+    is: 'more-table',
+    properties: {
+      data: {
+        type: Array,
+      },
+      headers: {
+        type: Array,
+        value: []
+      },
+      selectable: {
+        type: Boolean,
+        value: false
+      },
+      selected: {
+        type: Array,
+        value: [],
+        notify: true
+      },
+      searchable: {
+        type: Boolean,
+        value: true
+      },
+      search: String,
+      forwardButton: Boolean,
+      forwardButtonIcon: {
+        type: String,
+        value: "arrow-forward"
+      },
+      forwardButtonAlt: String,
+      sortFunc: {
+        type: Object,
+        value: function(a, b) {
+          return a > b
+        }
+      },
+      attrSortBy: {
+        type: String,
+        value: null
+      },
+      mediaQuery: {
+        type: String,
+        value: '(min-width: 800px)'
+      }
+    },
+    dataChanged: function(s) {
+      // console.log(s);
+    },
+    getAttr: function(item, attr) {
+      return item[attr];
+    },
+    forwardClicked: function(e) {
+      var item = this.$.dataList.itemForElement(e.target) || 
+        this.$.dataList2.itemForElement(e.target);
+      this.fire('click-forward', {
+        name: 'click-forward',
+        item: item
+      })
+    },
+    selectItem: function(e) {
+      var item = this.$.dataList.itemForElement(e.target);
+      this.$.selector.select(item);
+    },
+    selectItem2: function(e) {
+      var item = this.$.dataList2.itemForElement(e.target);
+      this.$.selector.select(item);
+    },
+    selectAll: function(e) {
+      var self = this;
+      if (this.isAllSelected(this.data.length, this.selected.length)) {
+        this.data.forEach(function(item) {
+          self.$.selector.select(item);
+        })
+      } else {
+        this.data.forEach(function(item) {
+          if (self.selected.indexOf(item) < 0) {
+            self.$.selector.select(item);
+          }
+        });
+      }
+    },
+    arrowIconClass: function(attr, attrSortBy) {
+      if (!attrSortBy)
+        return 'arrow-icon-hidden';
+      if (attr === attrSortBy)
+        return 'arrow-icon-show';
+      return 'arrow-icon-hidden';
+    },
+    sortBy: function(e) {
+      var header = this.$.headerList.itemForElement(e.target);
+      this.changeSortFunc(header);
+    },
+    changeSortFunc: function(header) {
+      this.attrSortBy = header.attr;
+      var self = this;
+      (function() {
+        var idx = self.headers.indexOf(header);
+        if (idx >= 0) {
+          self.set('headers.' + idx + '.incOrder', !header.incOrder);
+        }
+        var fn = function(a, b) {
+          if (!a) return -1;
+          if (!b) return 1;
+          return a[header.attr] > b[header.attr];
+        }
+        if (header.incOrder)
+          self.sortFunc = fn;
+        else
+          self.sortFunc = function(a, b) {
+            return fn(b, a);
+          };
+        // fire change to resort
+        var tmp = self.data.pop();
+        if (tmp) self.data.push(tmp);
+      })();
+    },
+    isSelected: function(item, changeLog) {
+      return this.selected && this.selected.indexOf(item) >= 0;
+    },
+    isAllSelected: function(lenAll, lenSelected) {
+      if (!lenAll) return false;
+      return lenAll === lenSelected;
+    },
+    ready: function() {}
+  });
+  </script>
+</dom-module>

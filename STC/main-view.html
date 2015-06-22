@@ -1,0 +1,126 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+<dom-module id="main-view">
+  <style>
+  #nav-menu paper-item {
+    border-width: 2px 0;
+    border-style: solid;
+    border-color: transparent;
+    cursor: pointer;
+  }
+  
+  #nav-menu .iron-selected {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  iron-icon {
+    padding-right: 10px;
+  }
+  
+  [drawer] {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  }
+  
+  [main] {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+  .container {
+    padding: 2.5em;
+    /*max-width: 48em;*/
+  }
+  #view-selector {
+    height: 100%;
+  }
+  #pages {
+    height: 100%;
+  }  
+  </style>
+  <template>
+    <more-route name="main" context></more-route>
+    <paper-drawer-panel id="mainDrawerPanel" disable-swipe>
+      <paper-header-panel drawer>
+        <more-route-selector route-attribute="page">
+          <iron-selector id="nav-menu" selected="{{page}}" attr-for-selected="page">
+            <template is="dom-repeat" items="{{navItems}}">
+              <paper-item page$="{{item.page}}" on-click="toggleDrawer">
+                <iron-icon icon="{{item.icon}}"></iron-icon>
+                <span>{{item.title}}</span>
+              </paper-item>
+            </template>
+          </iron-selector>
+        </more-route-selector>
+      </paper-header-panel>
+      <div main class="fullbleed vertical layout">
+        <more-route-selector id="view-selector">
+          <iron-pages id="pages" attr-for-selected="route" selected="{{page}}">
+            <account-view account="{{account}}" route="account" on-toggle-drawer="toggleDrawer"></account-view>
+            <buy-view route="buy" on-toggle-drawer="toggleDrawer"></buy-view>
+            <sell-view route="sell" on-toggle-drawer="toggleDrawer"></sell-view>
+            <query-view route="query" on-toggle-drawer="toggleDrawer"></query-view>
+            <trading-history route="history" on-toggle-drawer="toggleDrawer"></trading-history>
+            <change-password route="password" on-toggle-drawer="toggleDrawer"></change-password>
+          </iron-pages>
+        </more-route-selector>
+      </div>
+    </paper-drawer-panel>
+  </template>
+  <script>
+  Polymer({
+    is: 'main-view',
+    properies: {
+      account: {
+        type: Object,
+        notify: true
+      },
+      page: {
+        type: String,
+        notify: true,
+        value: 'account'
+      }
+    },
+    ready: function() {
+      this.navItems = [{
+        page: 'account',
+        title: '账户信息',
+        icon: 'account-box'
+      }, {
+        page: 'buy',
+        title: '购买股票',
+        icon: 'add'
+      }, {
+        page: 'sell',
+        title: '出售股票',
+        icon: 'eject'
+      }, {
+        page: 'query',
+        title: '查询股票',
+        icon: 'search'
+      }, {
+        page: 'history',
+        title: '交易历史',
+        icon: 'history'
+      }, {
+        page: 'password',
+        title: '修改密码',
+        icon: 'create'
+      }, {
+        page: 'logout',
+        title: '注销',
+        icon: 'launch'
+      }];
+      this.page = 'account';
+    },
+    currentTitle: function(items, page) {
+      return items.filter(function(item) {
+        return item.page == page;
+      })[0].title;
+    },
+    toggleDrawer: function() {
+      var drawer = this.$.mainDrawerPanel;
+      if (drawer.narrow) {
+        drawer.togglePanel();
+      }
+    }
+  });
+  </script>
+</dom-module>

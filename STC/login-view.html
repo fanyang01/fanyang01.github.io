@@ -1,0 +1,72 @@
+<link rel="import" href="bower_components/polymer/polymer.html">
+
+<dom-module id='login-view'>
+	<style>
+		#container {
+			padding: 20px;
+		}
+		#form {
+			min-width: 66%;
+		}
+		paper-button {
+			background-color: var(--paper-blue-400);
+			color: white;
+			min-width: 7em;
+		}
+		#button {
+			padding: 20px;
+		}
+	</style>
+	<template>
+		<paper-header-panel class="flex">
+			<paper-toolbar>
+				<span>Welcome</span>
+			</paper-toolbar>
+			<div id="container" class="fit vertical layout center">
+				<div id="form">
+					<iron-form class="vertical layout">
+						<paper-input label="Card Number" value="{{cardNumber}}"></paper-input>
+						<paper-input label="Password" value="{{password}}" type="password"></paper-input>
+						<div class="vertical layout center" id="button">
+							<paper-button raised on-click="login">
+								<span>Login</span>
+								<iron-icon icon="arrow-forward"></iron-icon>
+							</paper-button>
+						</div>
+					</iron-form>
+				</div>
+			</div>
+		</paper-header-panel>
+		<paper-toast text="{{message}}" id="toast"></paper-toast>
+	</template>
+
+	<script>
+		Polymer({
+			is: 'login-view',
+			properties: {
+				account: {
+					type: Object,
+					notify: true
+				}
+			},
+			login: function() {
+				// talk to server...
+				if(this.cardNumber == 'pass' && this.password == 'word') {
+					this.message = "Log in successfully";
+					this.$.toast.show();
+					this.set('account', {
+						cardNumber: this.cardNumber
+					});
+					self = this;
+					setTimeout(function() {
+						self.set('account.isLogin', true);
+					}, 500);
+				} else {
+					this.message = "Login failed, try again";
+					this.$.toast.show();
+					this.password = '';
+				}
+			}
+		})
+	</script>
+</dom-module>
