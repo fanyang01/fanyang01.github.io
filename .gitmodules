@@ -1,0 +1,4 @@
+[submodule "STC"]
+	path = STC
+	url = /home/fan/stock-trading-client/.git
+	branch = dev
