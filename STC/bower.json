@@ -38,6 +38,7 @@
     "more-routing": "PolymerLabs/more-routing#~1.0.0",
     "app-router": "~2.6.1",
     "iron-signals": "PolymerElements/iron-signals#^1.0.0",
-    "paper-toggle-button": "PolymerElements/paper-toggle-button#^1.0.0"
+    "paper-toggle-button": "PolymerElements/paper-toggle-button#^1.0.0",
+    "platinum-sw": "PolymerElements/platinum-sw#~1.0.1"
   }
 }
