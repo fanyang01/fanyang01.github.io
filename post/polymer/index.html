@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="zh_CN">
+<head>
+
+  
+  <meta charset="UTF-8">
+  <title>
+    Polymer使用体验 | 杨帆的博客
+  </title>
+
+
+  
+  <meta name="viewport" content="width=device-width,user-scalable=no,maximum-scale=1,initial-scale=1">
+
+
+  
+  <link rel="stylesheet" href="/css/sanitize.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/highlight_monokai.css">
+  <link rel="stylesheet/less" href="/css/theme.less">
+  <link rel="stylesheet" href="/css/custom.css">
+
+
+  
+  <script src="/js/less.js" type="text/javascript"></script>
+
+
+</head>
+
+
+
+<body>
+<div class="container">
+
+  
+  <header role="banner">
+    <div class="row gutters">
+      <div id="site-title" class="col span_6">
+        <h1><a href="/">杨帆的博客</a></h1>
+        <h2>Be better</h2>
+      </div>
+      <div id="social" class="col span_6">
+        <ul>
+          
+          
+          <li><a href="https://github.com/fanyang01" target="_blank">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+
+  
+  <main id="single" role="main">
+    <div class="article-header">
+      <h1>Polymer使用体验</h1>
+      <div class="meta">
+        Jul 4, 2015 &nbsp;
+        
+      </div>
+    </div>
+    <article>
+      <p><a href="https://www.polymer-project.org">Polymer</a>是一个Google的开源Web项目，
+基于新的<a href="http://webcomponents.org/">Web Components</a>技术。Polymer强调自
+己不是一个Web框架，而仅仅是一个使得创建Web components更加容易的项目。
+Polymer 1.0宣称Production ready，为速度和性能完全重写，因此不兼容之前
+的0.5版本。</p>
+
+<p>在<a href="https://www.youtube.com/playlist?list=PLOU2XLYxmsII5c3Mgw6fNYCzaWrsM3sMN">Youtube</a>
+上有一个由Polymer team成员Rob Dodson开设的系列教程，非常浅显易懂，每个
+教程5-10分钟，建议从这里起步。此外完整地阅读一遍Polymer 1.0官方文档也
+是很有必要的，因为Polymer现在仅处于起步阶段，除此之外资料较少。</p>
+
+<p>下面简单说下使用Polymer的体验。</p>
+
+<ul>
+<li>首先的确是创造Web components更加容易。Shadow DOM使得我们可以专注于组件
+的开发，包括组件内的布局、样式、数据绑定等，而无需太多考虑其他组件的
+影响和限制。</li>
+<li>然后是使用方便。Polymer已经提供了较多高质量的elements，直接拿来用就好了。这里面
+有核心的iron-elements，有让实现Material design风格Web应用变得异常容易
+的paper-elements。</li>
+</ul>
+
+<p>然后是我个人体会到的一些不足的地方。</p>
+
+<ul>
+<li><p>路由。处理稍微复杂的页面逻辑时，路由几乎是不可避免的。目前Polymer
+starter toolkit推荐使用的是
+<a href="https://visionmedia.github.io/page.js/">Page.js</a>,配合使用
+iron-pages,可实现简单的路由。但是就我体验而言，这种方法与Web
+components的思路不太符合,而且较难实现lazy load和聚合的路由。
+<a href="https://erikringsmuth.github.io/app-router/">app-router</a>是一个专为
+Web components开发的路由，使用标签形式进行路由声明，支持复杂路由设置，
+如通配符、正则表达式、重定向和聚合路由，也支持lazy load。这个工具现在最大
+的问题是针对Polymer 0.5设计的，与Polymer 1.0不兼容的地方较多。
+<a href="https://github.com/PolymerLabs/more-routing">more-routing</a>是Polymer
+team开发的一个简单路由工具，配合iron-pages使用，它最大的问题是不支持
+稍微复杂的路由设置，如通配符、lazy load。这几个工具个人感觉都还不太
+完善，页面复杂之后使用起来都不是很方便。</p></li>
+
+<li><p>跨页面的数据绑定。数据绑定虽然可通过Polymer元素的properties进行，但
+当跨越多个层级的元素时感觉还是比较别扭，我尝试过iron-signals来进行全
+局的数据传递，但这并不是好的解决办法。或许提供类似Angular的service或
+factory是一个解决此问题的方向。</p></li>
+</ul>
+
+    </article>
+    
+ <aside><div id="disqus_thread"></div></aside> 
+
+<script type="text/javascript">
+     
+    var disqus_shortname = 'fanyang01';
+
+     
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+  </main>
+
+
+  
+  <footer role="contentinfo">
+    <div style="text-align:center;">
+      <img src="/images/profile.png" width="64" height="64"><br>
+      Written by Fan Yang
+    </div>
+  </footer>
+
+
+</div>
+
+<script src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+</body>
+</html>
+
