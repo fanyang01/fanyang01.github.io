@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Blog</title>
+  <meta name="description" content="">
+  <!-- Mobile -->
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <!-- Chrome / Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="black">
+  <!-- <link rel="icon" href="icon.png"> -->
+  <!-- Safari / iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <!-- Web Components -->
+  <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <!-- import elements -->
+  <link rel="import" href="/elements.html">
+  <link rel="import" href="/themes.html">
+  <link rel="stylesheet" href="/single.css">
+</head>
+
+<body unresolved class="fullbleed">
+  <template is='dom-bind' id="single">
+    <!-- content -->
+    <paper-scroll-header-panel main condenses class="flex">
+      <!-- top toolbar -->
+      <paper-toolbar class="tall">
+        <paper-icon-button icon="home"></paper-icon-button>
+        <div class="bottom title">My App</div>
+      </paper-toolbar>
+      <div main class="vertical layout center" id="main-container">
+        <paper-material elevation="2" id="article-container" class="vertical layout">
+          <article class="fullbleed flex">
+            <header class="title vertical layout">
+              <div class="path">
+                <span><a href="#">Home</a></span>
+                >
+                <span>Post</span>
+              </div>
+              <h1>My First Blog Post</h1>
+              <time>2015-7-11, 17:34</time>
+            </header>
+            <section class="content">
+              <p>The home page of a website is often formatted differently than the
+                other pages. In Hugo you can define your own homepage template.</p>
+              <p>Homepage is of the type &ldquo;node&rdquo; and have all the
+                <a href="/templates/variables/">node variables
+                          </a> and <a href="/templates/variables/">site
+                      variables</a> available to use in the templates.</p>
+              <p><em>This is the only required template for building a site and useful when
+                      bootstrapping a new site and template. It is also the only required
+                      template when using a single page site.</em></p>
+              <p>In addition to the standard node variables, the homepage has access
+                to all site content accessible from <code>.Data.Pages</code>. Details
+                on how to use the list of pages can be found in the
+                <a href="/templates/list/">Lists Template</a>.</p>
+              <p>The home page of a website is often formatted differently than the
+                other pages. In Hugo you can define your own homepage template.</p>
+              <p>Homepage is of the type &ldquo;node&rdquo; and have all the
+                <a href="/templates/variables/">node variables
+                          </a> and <a href="/templates/variables/">site
+                      variables</a> available to use in the templates.</p>
+              <p><em>This is the only required template for building a site and useful when
+                      bootstrapping a new site and template. It is also the only required
+                      template when using a single page site.</em></p>
+              <p>In addition to the standard node variables, the homepage has access
+                to all site content accessible from <code>.Data.Pages</code>. Details
+                on how to use the list of pages can be found in the
+                <a href="/templates/list/">Lists Template</a>.</p>
+              <p>The home page of a website is often formatted differently than the
+                other pages. In Hugo you can define your own homepage template.</p>
+              <p>Homepage is of the type &ldquo;node&rdquo; and have all the
+                <a href="/templates/variables/">node variables
+                          </a> and <a href="/templates/variables/">site
+                      variables</a> available to use in the templates.</p>
+              <p><em>This is the only required template for building a site and useful when
+                      bootstrapping a new site and template. It is also the only required
+                      template when using a single page site.</em></p>
+              <p>In addition to the standard node variables, the homepage has access
+                to all site content accessible from <code>.Data.Pages</code>. Details
+                on how to use the list of pages can be found in the
+                <a href="/templates/list/">Lists Template</a>.</p>
+              <h2 id="which-template-will-be-rendered:df172b50a72343cc3a669e7d2f82e221">Which Template will be rendered?</h2>
+              <p>Hugo uses a set of rules to figure out which template to use when rendering
+                a specific page.</p>
+              <p>Hugo will use the following prioritized list. If a file isn’t present,
+                then the next one in the list will be used. This enables you to craft
+                specific layouts when you want to without creating more templates
+                than necessary. For most sites, only the _default file at the end
+                of the list will be needed.</p>
+              <h2 id="example-index-html:df172b50a72343cc3a669e7d2f82e221">Example index.html</h2>
+              <p>This content template is used for <a href="http://spf13.com/">spf13.com</a>.</p>
+              <p>It makes use of <a href="/templates/partials/">partial templates</a>                and uses a similar approach as a <a href="/templates/list/">List</a>.</p>
+              <h2 id="example-index-html:df172b50a72343cc3a669e7d2f82e221">Example index.html</h2>
+              <p>This content template is used for <a href="http://spf13.com/">spf13.com</a>.</p>
+              <p>It makes use of <a href="/templates/partials/">partial templates</a>                and uses a similar approach as a <a href="/templates/list/">List</a>.</p>
+            </section>
+            <!-- tags and navigator -->
+            <footer class="footer">
+              <div class="vertical layout">
+                <div class="tags horizontal layout start">
+                  <a href="#">
+                    <paper-button>Tag1</paper-button>
+                  </a>
+                  <a href="#">
+                    <paper-button>Tag2</paper-button>
+                  </a>
+                  <a href="#">
+                    <paper-button>Tag3</paper-button>
+                  </a>
+                </div>
+                <div class="navigator horizontal layout space-between">
+                  <a href="#">
+                    <paper-button>
+                      <iron-icon icon="arrow-back"></iron-icon>
+                      <span>Prev</span>
+                    </paper-button>
+                  </a>
+                  <div class="flex"></div>
+                  <a href="#">
+                    <paper-button>
+                      <span>Next</span>
+                      <iron-icon icon="arrow-forward"></iron-icon>
+                    </paper-button>
+                  </a>
+                </div>
+              </div>
+            </footer>
+          </article>
+        </paper-material>
+      </div>
+    </paper-scroll-header-panel>
+  </template>
+</body>
+
+</html>

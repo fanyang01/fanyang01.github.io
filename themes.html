@@ -1,0 +1,65 @@
+<style is="custom-style">
+paper-scroll-header-panel {
+  height: 100%;
+}
+
+paper-drawer-panel {
+  top: auto;
+  --paper-drawer-panel-right-drawer-container: {
+    overflow: visible;
+    border-left: 2px solid rgba(0, 0, 0, 0.05);
+  };
+  --paper-drawer-panel-left-drawer-container: {
+    overflow: visible;
+    border-right: 2px solid rgba(0, 0, 0, 0.05);
+  };
+}
+
+paper-button {
+  text-transform: none;
+}
+
+html,
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+div,
+a,
+p {
+  font-family: 'Roboto', 'Noto', 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: normal;
+}
+
+article > * {
+  color: #263238;
+}
+
+a {
+  color: var(--paper-cyan-600);
+}
+
+div.path {
+	color: var(--paper-grey-500);
+	font-size: 14px;
+	padding: 16px 0 24px 0.5em;
+}
+div.path a {
+	color: var(--paper-grey-500);
+}
+
+paper-toolbar#list-toolbar {
+  --paper-toolbar-background: white;
+}
+#list-toolbar paper-icon-button {
+  color: var(--paper-blue-500);
+}
+</style>
