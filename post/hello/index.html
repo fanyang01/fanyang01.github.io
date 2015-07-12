@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>杨帆的博客</title>
+  <meta name="description" content="">
+  
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="black">
+  <link rel="icon" href="/icon.png">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  
+  <link rel="import" href="/elements.html">
+  <link rel="import" href="/themes.html">
+  <link rel="stylesheet" href="/single.css">
+</head>
+
+<body unresolved class="fullbleed">
+  
+  <template is='dom-bind' id="single">
+    
+    <paper-scroll-header-panel main condenses class="flex">
+      
+      <paper-toolbar class="tall">
+        <a href="https://fanyang01.github.io/" class="icon"><paper-icon-button icon="home"></paper-icon-button></a>
+        <div class="bottom title">杨帆的博客</div>
+      </paper-toolbar>
+      <div main class="vertical layout center" id="main-container">
+        <paper-material elevation="2" id="article-container" class="vertical layout">
+          <article class="fullbleed flex">
+            <header class="title vertical layout">
+              <div class="path">
+                <span><a href="https://fanyang01.github.io//">Home</a></span> >
+                <span><a href="https://fanyang01.github.io//post">Post</a></span>
+              </div>
+              <h1>Hello, world 你好，世界</h1>
+              <time>Mon May 25, 2015</time>
+            </header>
+            <section class="content"><p>This is the first post from this blog.</p>
+
+<p><strong>Powered by <a href="http://gohugo.io">hugo</a></strong></p>
+</section>
+            
+            <footer class="footer">
+              <div class="vertical layout">
+                
+                <div class="navigator horizontal layout space-between">
+                  
+                  <a href="https://fanyang01.github.io/post/polymer/">
+                    <iron-icon icon="arrow-back"></iron-icon>
+                    <span>Polymer使用体验</span>
+                  </a>
+                  
+                  <div class="flex"></div>
+                  
+                </div>
+              </div>
+            </footer>
+          </article>
+        </paper-material>
+      </div>
+    </paper-scroll-header-panel>
+  </template>
+</body>
+
+</html>

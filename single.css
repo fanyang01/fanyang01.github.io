@@ -11,7 +11,7 @@
 }
 @media (max-width: 600px) {
 	#article-container {
-		margin: 2em auto;
+		margin: 0 auto;
 		width: 100%;
 	}	
 }
@@ -27,9 +27,13 @@ footer.footer {
 }
 div.tags {
 	font-style: italic;
-	padding: 0.5em;
+	padding: 1em;
 	border-bottom: 1px dashed rgba(0,0,0,0.1);
 }
+span.tag {
+	padding-left: 1em;
+}
+
 div.navigator {
-	padding: 1em;
+	padding: 2em 1em;
 }

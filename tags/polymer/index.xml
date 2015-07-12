@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Polymer on 杨帆的博客</title>
+    <link>https://fanyang01.github.io/tags/polymer/</link>
+    <description>Recent content in Polymer on 杨帆的博客</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh_CN</language>
+    <lastBuildDate>Sat, 04 Jul 2015 15:19:32 +0000</lastBuildDate>
+    <atom:link href="https://fanyang01.github.io/tags/polymer/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Polymer使用体验</title>
+      <link>https://fanyang01.github.io/post/polymer/</link>
+      <pubDate>Sat, 04 Jul 2015 15:19:32 +0000</pubDate>
+      
+      <guid>https://fanyang01.github.io/post/polymer/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.polymer-project.org&#34;&gt;Polymer&lt;/a&gt;是一个Google的开源Web项目，
+基于新的&lt;a href=&#34;http://webcomponents.org/&#34;&gt;Web Components&lt;/a&gt;技术。Polymer强调自
+己不是一个Web框架，而仅仅是一个使得创建Web components更加容易的项目。
+Polymer 1.0宣称Production ready，为速度和性能完全重写，因此不兼容之前
+的0.5版本。&lt;/p&gt;
+
+&lt;p&gt;在&lt;a href=&#34;https://www.youtube.com/playlist?list=PLOU2XLYxmsII5c3Mgw6fNYCzaWrsM3sMN&#34;&gt;Youtube&lt;/a&gt;
+上有一个由Polymer team成员Rob Dodson开设的系列教程，非常浅显易懂，每个
+教程5-10分钟，建议从这里起步。此外完整地阅读一遍Polymer 1.0官方文档也
+是很有必要的，因为Polymer现在仅处于起步阶段，除此之外资料较少。&lt;/p&gt;
+
+&lt;p&gt;下面简单说下使用Polymer的体验。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;首先的确是创造Web components更加容易。Shadow DOM使得我们可以专注于组件
+的开发，包括组件内的布局、样式、数据绑定等，而无需太多考虑其他组件的
+影响和限制。&lt;/li&gt;
+&lt;li&gt;然后是使用方便。Polymer已经提供了较多高质量的elements，直接拿来用就好了。这里面
+有核心的iron-elements，有让实现Material design风格Web应用变得异常容易
+的paper-elements。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;然后是我个人体会到的一些不足的地方。&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;路由。处理稍微复杂的页面逻辑时，路由几乎是不可避免的。目前Polymer
+starter toolkit推荐使用的是
+&lt;a href=&#34;https://visionmedia.github.io/page.js/&#34;&gt;Page.js&lt;/a&gt;,配合使用
+iron-pages,可实现简单的路由。但是就我体验而言，这种方法与Web
+components的思路不太符合,而且较难实现lazy load和聚合的路由。
+&lt;a href=&#34;https://erikringsmuth.github.io/app-router/&#34;&gt;app-router&lt;/a&gt;是一个专为
+Web components开发的路由，使用标签形式进行路由声明，支持复杂路由设置，
+如通配符、正则表达式、重定向和聚合路由，也支持lazy load。这个工具现在最大
+的问题是针对Polymer 0.5设计的，与Polymer 1.0不兼容的地方较多。
+&lt;a href=&#34;https://github.com/PolymerLabs/more-routing&#34;&gt;more-routing&lt;/a&gt;是Polymer
+team开发的一个简单路由工具，配合iron-pages使用，它最大的问题是不支持
+稍微复杂的路由设置，如通配符、lazy load。这几个工具个人感觉都还不太
+完善，页面复杂之后使用起来都不是很方便。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;跨页面的数据绑定。数据绑定虽然可通过Polymer元素的properties进行，但
+当跨越多个层级的元素时感觉还是比较别扭，我尝试过iron-signals来进行全
+局的数据传递，但这并不是好的解决办法。或许提供类似Angular的service或
+factory是一个解决此问题的方向。&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

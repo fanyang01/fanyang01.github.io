@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>杨帆的博客</title>
+  <meta name="description" content="">
+  
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="black">
+  <link rel="icon" href="/icon.png">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  
+  <link rel="import" href="/elements.html">
+  <link rel="import" href="/themes.html">
+  <link rel="stylesheet" href="/list.css">
+</head>
+
+<body unresolved class="fullbleed">
+  
+  <template is='dom-bind' id="list">
+    <paper-drawer-panel class="flex" drawer-width="300px">
+      <paper-header-panel drawer mode="seamed">
+        <paper-toolbar class="medium-tall" justify="center" bottom-justify="center" middle-justify="center">
+          <div class="top">
+            <h1 class="blog-title">杨帆的博客</h1></div>
+          
+          <div class="bottom">Be Better</div>
+          
+        </paper-toolbar>
+        <div class="fit vertical layout">
+          <paper-item on-tap="toggleCollapse" id="section-button">
+            <span>Sections</span>
+            <span class="flex"></span>
+            <iron-icon icon="expand-more" id="expand"></iron-icon>
+          </paper-item>
+          <iron-collapse id="collapse" class="vertical layout">
+            
+              <a href="https://fanyang01.github.io//post" class="section-item">
+                <paper-item>Post</paper-item>
+              </a>
+            
+          </iron-collapse>
+          <div class="flex"></div>
+          <div class="icons horizontal layout around-justified">
+            <a href="mailto:yangfan879@gmail.com"><iron-icon icon="mail"></iron-icon></a>
+            <a href="https://github.com/fanyang01"><iron-icon icon="code"></iron-icon></a>
+            <a href="http://weibo.com/yangfan124"><iron-icon icon="communication:chat-bubble-outline"></iron-icon></a>
+          </div>
+          <div id="side-footer" class="vertical layout">
+            <div class="copyright">©2015 Fan Yang. <a href="http://creativecommons.org/licenses/by/4.0/">Some rights reserved</a>.</div>
+            <div>Powered by <a href="http://gohugo.io">Hugo</a></div>
+          </div>
+        </div>
+      </paper-header-panel>
+      <paper-header-panel main mode="seamed">
+        <paper-toolbar id="list-toolbar">
+          <paper-icon-button icon="menu" paper-drawer-toggle></paper-icon-button>
+        </paper-toolbar>
+        <div class="horizontal layout start fit" id="main-container">
+          <div class="vertical layout flex" id="list-container">
+            
+            <section class="summary vertical layout">
+              <header class="title">
+                <h1><a href="https://fanyang01.github.io/post/polymer/">Polymer使用体验</a></h1>
+                <time>Sat Jul 4, 2015</time>
+              </header>
+              <summary><p><a href="https://www.polymer-project.org">Polymer</a>是一个Google的开源Web项目，
+基于新的<a href="http://webcomponents.org/">Web Components</a>技术。Polymer强调自
+己不是一个Web框架，而仅仅是一个使得创建Web components更加容易的项目。
+Polymer 1.0宣称Production ready，为速度和性能完全重写，因此不兼容之前
+的0.5版本。</p>
+</summary>
+              <div class="read-more horizontal layout">
+                <div class="flex"></div>
+                <a href="https://fanyang01.github.io/post/polymer/">Read More</a>
+                <iron-icon icon="arrow-forward"></iron-icon>
+              </div>
+            </section>
+            
+          </div>
+        </div>
+      </paper-header-panel>
+    </paper-drawer-panel>
+  </template>
+
+  <script src="/list.js"></script>
+</body>
+
+</html>

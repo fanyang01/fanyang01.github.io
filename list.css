@@ -18,6 +18,9 @@
 		width: 100%;
 	}	
 }
+h1.blog-title {
+	font-size: 24px;
+}
 header.title {
 	padding: 10px 16px;
 	border-bottom: 1px dashed rgba(0,0,0,0.1);
@@ -29,6 +32,35 @@ header.title {
 	font-size: 18px;
 	padding: 1em;
 }
-.read-more a {
-	text-decoration: none;
+
+paper-item#section-button:hover {
+	cursor: pointer;
+	background-color: rgba(0,0,0,0.05);
+}
+a.section-item {
+	line-height: 48px;
+	width: 100%;
+	padding-left: 1em;
+}
+a.section-item:hover {
+	background-color: rgba(0,0,0,0.05);
+}
+div.icons {
+	padding: 0;
+}
+div.icons a {
+	width: 24px;
+	height: 24px;
+	padding: 12px 12px;
+}
+div.icons a iron-icon {
+	width: 24px;
+	height: 24px;
+}
+div#side-footer {
+	padding: 2em 0 4em 0;
+	text-align: center;
+}
+div.copyright {
+	padding: 1em 0;
 }
