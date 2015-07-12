@@ -70,11 +70,7 @@ factory是一个解决此问题的方向。&lt;/p&gt;&lt;/li&gt;
       <guid>https://fanyang01.github.io/post/hello/</guid>
       <description>&lt;p&gt;This is the first post from this blog.&lt;/p&gt;
 
-<<<<<<< HEAD
 &lt;p&gt;&lt;strong&gt;Powered by &lt;a href=&#34;http://gohugo.io&#34;&gt;hugo&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
-=======
-&lt;p&gt;&lt;strong&gt;Powered by &lt;a href=&#34;gohugo.io&#34;&gt;hugo&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;
->>>>>>> b6b83d32ec769677261fad01ee7ecd00f3993bee
 </description>
     </item>
     
