@@ -6,8 +6,174 @@
     <description>Recent content in Posts on 杨帆的博客</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh_CN</language>
-    <lastBuildDate>Sat, 04 Jul 2015 15:19:32 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 06 Aug 2015 11:29:37 +0800</lastBuildDate>
     <atom:link href="https://fanyang01.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>玉泉校区Linux闪讯/VPN有线连接</title>
+      <link>https://fanyang01.github.io/post/zju-vpn/</link>
+      <pubDate>Thu, 06 Aug 2015 11:29:37 +0800</pubDate>
+      
+      <guid>https://fanyang01.github.io/post/zju-vpn/</guid>
+      <description>
+
+&lt;p&gt;搬到玉泉校区后以前在紫金港的闪讯有线连接方式无效了，看了几篇文章，多次尝试后成功地搞定了玉泉的有线连接，在此记录下配置过程以供参考，闪讯或VPN均可。&lt;/p&gt;
+
+&lt;h1 id=&#34;环境:1b7d923f42ed8b2e817a63af8923ba77&#34;&gt;环境&lt;/h1&gt;
+
+&lt;ul&gt;
+&lt;li&gt;玉泉7舍&lt;/li&gt;
+&lt;li&gt;Debian stretch和OpenSUSE 13.2系统&lt;/li&gt;
+&lt;li&gt;闪讯帐号&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&#34;配置过程:1b7d923f42ed8b2e817a63af8923ba77&#34;&gt;配置过程&lt;/h1&gt;
+
+&lt;h2 id=&#34;ip申请:1b7d923f42ed8b2e817a63af8923ba77&#34;&gt;IP申请&lt;/h2&gt;
+
+&lt;p&gt;玉泉校区必须使用静态IP，可以在&lt;a href=&#34;http://service.chinasinews.com&#34;&gt;学生公寓服务网&lt;/a&gt;申请，只需要填入正确的网卡Mac地址即可，申请成功后需要等待一段时间(24小时)才会生效。&lt;/p&gt;
+
+&lt;h2 id=&#34;ip绑定:1b7d923f42ed8b2e817a63af8923ba77&#34;&gt;IP绑定&lt;/h2&gt;
+
+&lt;p&gt;在Debian系统下，绑定静态地址的方式为修改&lt;code&gt;/etc/network/interfaces&lt;/code&gt;文件。一般而言，用于有线连接的网卡为&lt;code&gt;eth0&lt;/code&gt;，故在该文件中新增如下配置即可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;iface eth0 inet static
+    address 10.110.33.146/24
+    gateway 10.110.33.1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;其中address和gateway是上述申请到的地址和网关。&lt;/p&gt;
+
+&lt;p&gt;OpenSUSE系统则不同，我根据SUSE的文档配置&lt;code&gt;/etc/sysconfig/network&lt;/code&gt;下的&lt;code&gt;ifcfg-enp0s25&lt;/code&gt;和&lt;code&gt;route-enp0s25&lt;/code&gt;文件（其中enp0s25为该系统下我的有线网卡的名称）,但是并没有成功。最后使用了OpenSUSE KDE桌面环境下的图形化网络设置工具绑定成功。&lt;/p&gt;
+
+&lt;h2 id=&#34;安装xl2tpd:1b7d923f42ed8b2e817a63af8923ba77&#34;&gt;安装xl2tpd&lt;/h2&gt;
+
+&lt;p&gt;学校VPN是通过L2TP的方式连接的，所以我们需要一个L2TP客户端。Debian下&lt;code&gt;apt-get install xl2tpd&lt;/code&gt;，OpenSUSE下&lt;code&gt;zypper in xl2tpd&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h2 id=&#34;配置xl2tpd:1b7d923f42ed8b2e817a63af8923ba77&#34;&gt;配置xl2tpd&lt;/h2&gt;
+
+&lt;p&gt;在&lt;code&gt;/etc/xl2tpd/xl2tpd.conf&lt;/code&gt;中新增如下配置：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[global]                                ; Global parameters:
+port = 1701                             ; * Bind to port 1701
+auth file = /etc/xl2tpd/l2tp-secrets    ; * Where our challenge secrets are
+
+[lac zju-vpn]
+lns = 10.5.1.9
+redial = yes                            ; * Redial if disconnected?
+redial timeout = 10                     ; * Wait n seconds between redials
+max redials = 5                         ; * Give up after n consecutive failures
+hidden bit = yes                        ; * User hidden AVP&#39;s?
+local ip = 10.110.33.146
+require chap = yes                      ; * Require CHAP auth. by peer
+refuse chap = no                        ; * Refuse CHAP authentication
+require authentication = yes            ; * Require peer to authenticate
+ppp debug = no                          ; * Turn on PPP debugging
+pppoptfile = /etc/ppp/peers/zju-vpn     ; * ppp options file for this lac
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意几个比较重要的配置：&lt;code&gt;lns&lt;/code&gt;，这是l2tp服务器的地址，主机名为lns.zju.edu.cn，但是为了避免受到DNS服务器的影响，这里使用了IP地址；
+&lt;code&gt;local ip&lt;/code&gt;，这是上述申请到的静态IP地址；&lt;code&gt;auth file&lt;/code&gt;，这是用于l2tp身份认证的文件；&lt;code&gt;pppoptfile&lt;/code&gt;，这是用于后续PPP连接的配置文件。&lt;/p&gt;
+
+&lt;p&gt;然后在&lt;code&gt;/etc/xl2tpd/l2tp-secrets&lt;/code&gt;文件和&lt;code&gt;/etc/ppp/chap-secrets&lt;/code&gt;文件中填入自己的闪讯/VPN帐号和密码，格式为&lt;code&gt;&amp;quot;帐号&amp;quot; * &amp;quot;密码&amp;quot;&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h2 id=&#34;配置ppp连接:1b7d923f42ed8b2e817a63af8923ba77&#34;&gt;配置PPP连接&lt;/h2&gt;
+
+&lt;p&gt;此处注意确认已安装了用于PPP连接的软件包，Debian下为&lt;code&gt;pppd&lt;/code&gt;，OpenSUSE下为&lt;code&gt;smpppd&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;在&lt;code&gt;/etc/ppp/peers/zju-vpn&lt;/code&gt;文件中填入如下配置：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ipcp-accept-local
+ipcp-accept-remote
+defaultroute
+replacedefaultroute
+usepeerdns
+noauth
+proxyarp
+crtscts
+lock
+hide-password
+netmask 255.255.255.0
+user &amp;quot;帐号&amp;quot;
+usepeerdns
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意&amp;rdquo;帐号&amp;rdquo;应该与上述两个口令文件中的帐号相同。&lt;/p&gt;
+
+&lt;h2 id=&#34;添加路由:1b7d923f42ed8b2e817a63af8923ba77&#34;&gt;添加路由&lt;/h2&gt;
+
+&lt;p&gt;如果上述配置一切顺利的话，在&lt;code&gt;xl2tpd&lt;/code&gt;服务已经启动的情形下，输入以下命令即可进行连接:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;echo &amp;quot;c zju-vpn&amp;quot; &amp;gt; /var/run/xl2tpd/l2tp-control
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但是如果你立刻查看网络连接，会发现ppp连接出现很短暂的时间然后断开。这是因为VPN服务器只能从内网访问，而ppp连接成功后所有连接都通过ppp也就是外网，VPN连接将无法维系。解决办法是建立ppp连接后添加路由使得内网连接通过内网网关，如&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ip route add 10.0.0.0/8 dev eth0 via 10.110.33.1
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;连接脚本:1b7d923f42ed8b2e817a63af8923ba77&#34;&gt;连接脚本&lt;/h2&gt;
+
+&lt;p&gt;在上述配置无误的情形下，可以通过一个bash脚本来进行连接并添加路由：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;#!/bin/bash
+
+# restart eth0
+echo &amp;quot;Restart eth0...&amp;quot;
+ifdown eth0 &amp;amp;&amp;gt; /dev/null
+ifup eth0 &amp;amp;&amp;gt; /dev/null
+
+if ! ip addr show eth0 | grep -q &amp;quot;inet&amp;quot;; then
+	echo &amp;quot;No ethenet connection. Please check out your DSL.&amp;quot;
+	exit 1
+fi
+
+# start l2tp deamon
+xl2tpd
+sleep 1
+
+# connect to vpn
+echo -n &amp;quot;Connect to ZJU VPN...&amp;quot;
+echo &amp;quot;d zju-vpn&amp;quot; &amp;gt; /var/run/xl2tpd/l2tpd-control
+sleep 1
+msg=$(xl2tpd-control connect zju-vpn)
+if [[ &amp;quot;$?&amp;quot; -eq &amp;quot;0&amp;quot; ]]; then echo &amp;quot;OK&amp;quot;
+else
+	echo &amp;quot;FAIL: $msg&amp;quot;
+	exit 1
+fi
+
+# ppp0 interface may flash and disappear, so wait 1 second
+sleep 1
+
+timeout=10
+while ! ip link show up ppp0 &amp;amp;&amp;gt; /dev/null; do
+	[[ &amp;quot;$timeout&amp;quot; -le &amp;quot;0&amp;quot; ]] &amp;amp;&amp;amp; echo &amp;quot;Failed to dial peer :(&amp;quot; &amp;amp;&amp;amp; exit 1
+	sleep 1
+	((timeout--))
+done
+
+# set route
+GW=10.110.33.1
+{
+	ip route add 10.0.0.0/8 dev eth0 via $GW
+	ip route add 58.196.192.0/19 dev eth0 via $GW
+	ip route add 58.196.224.0/20 dev eth0 via $GW
+	ip route add 210.32.0.0/20 dev eth0 via $GW
+	ip route add 210.32.128.0/19 dev eth0 via $GW
+	ip route add 210.32.160.0/21 dev eth0 via $GW
+	ip route add 210.32.168.0/22 dev eth0 via $GW
+	ip route add 210.32.172.0/23 dev eth0 via $GW
+	ip route add 210.32.176.0/20 dev eth0 via $GW
+	ip route add 222.205.0.0/17 dev eth0 via $GW
+} &amp;amp;&amp;gt; /dev/null
+
+echo &amp;quot;PPP connection established.&amp;quot;
+
+exit 0
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Polymer使用体验</title>

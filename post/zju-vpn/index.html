@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>杨帆的博客</title>
+  <meta name="description" content="">
+  
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="black">
+  <link rel="icon" href="/icon.png">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
+  
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  
+  <link rel="import" href="/elements.html">
+  <link rel="import" href="/themes.html">
+  <link rel="stylesheet" href="/single.css">
+</head>
+
+<body unresolved class="fullbleed">
+  
+  <template is='dom-bind' id="single">
+    
+    <paper-scroll-header-panel main condenses class="flex">
+      
+      <paper-toolbar class="tall">
+        <a href="https://fanyang01.github.io/" class="icon"><paper-icon-button icon="home"></paper-icon-button></a>
+        <div class="bottom title">杨帆的博客</div>
+      </paper-toolbar>
+      <div main class="vertical layout center" id="main-container">
+        <paper-material elevation="2" id="article-container" class="vertical layout">
+          <article class="fullbleed flex">
+            <header class="title vertical layout">
+              <div class="path">
+                <span><a href="https://fanyang01.github.io//">Home</a></span> >
+                <span><a href="https://fanyang01.github.io//post">Post</a></span>
+              </div>
+              <h1>玉泉校区Linux闪讯/VPN有线连接</h1>
+              <time>Thu Aug 6, 2015</time>
+            </header>
+            <section class="content">
+
+<p>搬到玉泉校区后以前在紫金港的闪讯有线连接方式无效了，看了几篇文章，多次尝试后成功地搞定了玉泉的有线连接，在此记录下配置过程以供参考，闪讯或VPN均可。</p>
+
+<h1 id="环境:1b7d923f42ed8b2e817a63af8923ba77">环境</h1>
+
+<ul>
+<li>玉泉7舍</li>
+<li>Debian stretch和OpenSUSE 13.2系统</li>
+<li>闪讯帐号</li>
+</ul>
+
+<h1 id="配置过程:1b7d923f42ed8b2e817a63af8923ba77">配置过程</h1>
+
+<h2 id="ip申请:1b7d923f42ed8b2e817a63af8923ba77">IP申请</h2>
+
+<p>玉泉校区必须使用静态IP，可以在<a href="http://service.chinasinews.com">学生公寓服务网</a>申请，只需要填入正确的网卡Mac地址即可，申请成功后需要等待一段时间(24小时)才会生效。</p>
+
+<h2 id="ip绑定:1b7d923f42ed8b2e817a63af8923ba77">IP绑定</h2>
+
+<p>在Debian系统下，绑定静态地址的方式为修改<code>/etc/network/interfaces</code>文件。一般而言，用于有线连接的网卡为<code>eth0</code>，故在该文件中新增如下配置即可：</p>
+
+<pre><code>iface eth0 inet static
+    address 10.110.33.146/24
+    gateway 10.110.33.1
+</code></pre>
+
+<p>其中address和gateway是上述申请到的地址和网关。</p>
+
+<p>OpenSUSE系统则不同，我根据SUSE的文档配置<code>/etc/sysconfig/network</code>下的<code>ifcfg-enp0s25</code>和<code>route-enp0s25</code>文件（其中enp0s25为该系统下我的有线网卡的名称）,但是并没有成功。最后使用了OpenSUSE KDE桌面环境下的图形化网络设置工具绑定成功。</p>
+
+<h2 id="安装xl2tpd:1b7d923f42ed8b2e817a63af8923ba77">安装xl2tpd</h2>
+
+<p>学校VPN是通过L2TP的方式连接的，所以我们需要一个L2TP客户端。Debian下<code>apt-get install xl2tpd</code>，OpenSUSE下<code>zypper in xl2tpd</code>。</p>
+
+<h2 id="配置xl2tpd:1b7d923f42ed8b2e817a63af8923ba77">配置xl2tpd</h2>
+
+<p>在<code>/etc/xl2tpd/xl2tpd.conf</code>中新增如下配置：</p>
+
+<pre><code>[global]                                ; Global parameters:
+port = 1701                             ; * Bind to port 1701
+auth file = /etc/xl2tpd/l2tp-secrets    ; * Where our challenge secrets are
+
+[lac zju-vpn]
+lns = 10.5.1.9
+redial = yes                            ; * Redial if disconnected?
+redial timeout = 10                     ; * Wait n seconds between redials
+max redials = 5                         ; * Give up after n consecutive failures
+hidden bit = yes                        ; * User hidden AVP's?
+local ip = 10.110.33.146
+require chap = yes                      ; * Require CHAP auth. by peer
+refuse chap = no                        ; * Refuse CHAP authentication
+require authentication = yes            ; * Require peer to authenticate
+ppp debug = no                          ; * Turn on PPP debugging
+pppoptfile = /etc/ppp/peers/zju-vpn     ; * ppp options file for this lac
+</code></pre>
+
+<p>注意几个比较重要的配置：<code>lns</code>，这是l2tp服务器的地址，主机名为lns.zju.edu.cn，但是为了避免受到DNS服务器的影响，这里使用了IP地址；
+<code>local ip</code>，这是上述申请到的静态IP地址；<code>auth file</code>，这是用于l2tp身份认证的文件；<code>pppoptfile</code>，这是用于后续PPP连接的配置文件。</p>
+
+<p>然后在<code>/etc/xl2tpd/l2tp-secrets</code>文件和<code>/etc/ppp/chap-secrets</code>文件中填入自己的闪讯/VPN帐号和密码，格式为<code>&quot;帐号&quot; * &quot;密码&quot;</code>。</p>
+
+<h2 id="配置ppp连接:1b7d923f42ed8b2e817a63af8923ba77">配置PPP连接</h2>
+
+<p>此处注意确认已安装了用于PPP连接的软件包，Debian下为<code>pppd</code>，OpenSUSE下为<code>smpppd</code>。</p>
+
+<p>在<code>/etc/ppp/peers/zju-vpn</code>文件中填入如下配置：</p>
+
+<pre><code>ipcp-accept-local
+ipcp-accept-remote
+defaultroute
+replacedefaultroute
+usepeerdns
+noauth
+proxyarp
+crtscts
+lock
+hide-password
+netmask 255.255.255.0
+user &quot;帐号&quot;
+usepeerdns
+</code></pre>
+
+<p>注意&rdquo;帐号&rdquo;应该与上述两个口令文件中的帐号相同。</p>
+
+<h2 id="添加路由:1b7d923f42ed8b2e817a63af8923ba77">添加路由</h2>
+
+<p>如果上述配置一切顺利的话，在<code>xl2tpd</code>服务已经启动的情形下，输入以下命令即可进行连接:</p>
+
+<pre><code>echo &quot;c zju-vpn&quot; &gt; /var/run/xl2tpd/l2tp-control
+</code></pre>
+
+<p>但是如果你立刻查看网络连接，会发现ppp连接出现很短暂的时间然后断开。这是因为VPN服务器只能从内网访问，而ppp连接成功后所有连接都通过ppp也就是外网，VPN连接将无法维系。解决办法是建立ppp连接后添加路由使得内网连接通过内网网关，如</p>
+
+<pre><code>ip route add 10.0.0.0/8 dev eth0 via 10.110.33.1
+</code></pre>
+
+<h2 id="连接脚本:1b7d923f42ed8b2e817a63af8923ba77">连接脚本</h2>
+
+<p>在上述配置无误的情形下，可以通过一个bash脚本来进行连接并添加路由：</p>
+
+<pre><code class="language-bash">#!/bin/bash
+
+# restart eth0
+echo &quot;Restart eth0...&quot;
+ifdown eth0 &amp;&gt; /dev/null
+ifup eth0 &amp;&gt; /dev/null
+
+if ! ip addr show eth0 | grep -q &quot;inet&quot;; then
+	echo &quot;No ethenet connection. Please check out your DSL.&quot;
+	exit 1
+fi
+
+# start l2tp deamon
+xl2tpd
+sleep 1
+
+# connect to vpn
+echo -n &quot;Connect to ZJU VPN...&quot;
+echo &quot;d zju-vpn&quot; &gt; /var/run/xl2tpd/l2tpd-control
+sleep 1
+msg=$(xl2tpd-control connect zju-vpn)
+if [[ &quot;$?&quot; -eq &quot;0&quot; ]]; then echo &quot;OK&quot;
+else
+	echo &quot;FAIL: $msg&quot;
+	exit 1
+fi
+
+# ppp0 interface may flash and disappear, so wait 1 second
+sleep 1
+
+timeout=10
+while ! ip link show up ppp0 &amp;&gt; /dev/null; do
+	[[ &quot;$timeout&quot; -le &quot;0&quot; ]] &amp;&amp; echo &quot;Failed to dial peer :(&quot; &amp;&amp; exit 1
+	sleep 1
+	((timeout--))
+done
+
+# set route
+GW=10.110.33.1
+{
+	ip route add 10.0.0.0/8 dev eth0 via $GW
+	ip route add 58.196.192.0/19 dev eth0 via $GW
+	ip route add 58.196.224.0/20 dev eth0 via $GW
+	ip route add 210.32.0.0/20 dev eth0 via $GW
+	ip route add 210.32.128.0/19 dev eth0 via $GW
+	ip route add 210.32.160.0/21 dev eth0 via $GW
+	ip route add 210.32.168.0/22 dev eth0 via $GW
+	ip route add 210.32.172.0/23 dev eth0 via $GW
+	ip route add 210.32.176.0/20 dev eth0 via $GW
+	ip route add 222.205.0.0/17 dev eth0 via $GW
+} &amp;&gt; /dev/null
+
+echo &quot;PPP connection established.&quot;
+
+exit 0
+</code></pre>
+</section>
+            
+            <footer class="footer">
+              <div class="vertical layout">
+                
+                <div class="tags horizontal layout start">
+                  <span>Tags:</span>
+                  
+                  <span class="tag">
+                    <a href="https://fanyang01.github.io//tags/vpn">
+                        #vpn
+                    </a>
+                  </span>
+                  
+                  <span class="tag">
+                    <a href="https://fanyang01.github.io//tags/linux">
+                        #linux
+                    </a>
+                  </span>
+                  
+                </div>
+                
+                <div class="navigator horizontal layout space-between">
+                  
+                  <div class="flex"></div>
+                  
+                  <a href="https://fanyang01.github.io/post/polymer/">
+                    <span>Polymer使用体验</span>
+                    <iron-icon icon="arrow-forward"></iron-icon>
+                  </a>
+                  
+                </div>
+              </div>
+            </footer>
+          </article>
+        </paper-material>
+      </div>
+    </paper-scroll-header-panel>
+  </template>
+</body>
+
+</html>
