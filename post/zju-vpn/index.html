@@ -67,7 +67,7 @@
 <p>在Debian系统下，绑定静态地址的方式为修改<code>/etc/network/interfaces</code>文件。一般而言，用于有线连接的网卡为<code>eth0</code>，故在该文件中新增如下配置即可：</p>
 
 <pre><code>iface eth0 inet static
-    address 10.110.33.146/24
+    address 10.110.33.163/24
     gateway 10.110.33.1
 </code></pre>
 
@@ -93,7 +93,7 @@ redial = yes                            ; * Redial if disconnected?
 redial timeout = 10                     ; * Wait n seconds between redials
 max redials = 5                         ; * Give up after n consecutive failures
 hidden bit = yes                        ; * User hidden AVP's?
-local ip = 10.110.33.146
+local ip = 10.110.33.163
 require chap = yes                      ; * Require CHAP auth. by peer
 refuse chap = no                        ; * Refuse CHAP authentication
 require authentication = yes            ; * Require peer to authenticate
@@ -153,16 +153,16 @@ ifdown eth0 &amp;&gt; /dev/null
 ifup eth0 &amp;&gt; /dev/null
 
 if ! ip addr show eth0 | grep -q &quot;inet&quot;; then
-	echo &quot;No ethenet connection. Please check out your DSL.&quot;
+	echo &quot;No ethernet connection. Please check your DSL.&quot;
 	exit 1
 fi
 
 # start l2tp deamon
-xl2tpd
-sleep 1
+xl2tpd &amp;&amp; sleep 1
 
 # connect to vpn
 echo -n &quot;Connect to ZJU VPN...&quot;
+# disconnect first
 echo &quot;d zju-vpn&quot; &gt; /var/run/xl2tpd/l2tpd-control
 sleep 1
 msg=$(xl2tpd-control connect zju-vpn)
