@@ -48,6 +48,13 @@
 
 <p>搬到玉泉校区后以前在紫金港的闪讯有线连接方式无效了，看了几篇文章，多次尝试后成功地搞定了玉泉的有线连接，在此记录下配置过程以供参考，闪讯或VPN均可。</p>
 
+<p>2015年09月17日更新</p>
+
+<ul>
+<li>Debian并没有pppd软件包，pppd是由ppp包提供的(通过<code>dpkg -S /usr/sbin/pppd</code>发现)。</li>
+<li>在同学的Ubuntu 15.04上遇到了xl2tpd无法找到xl2tpd.conf配置文件的问题，通过-c选项明确指定其位置即可解决。</li>
+</ul>
+
 <h1 id="环境:1b7d923f42ed8b2e817a63af8923ba77">环境</h1>
 
 <ul>
@@ -71,7 +78,7 @@
     gateway 10.110.33.1
 </code></pre>
 
-<p>其中address和gateway是上述申请到的地址和网关。</p>
+<p>其中address和gateway是上述申请到的地址和网关。 重启eth0接口(<code>ifconfig eth0 down; ifconfig eth0 up</code>)后可检查地址是否添加成功。</p>
 
 <p>OpenSUSE系统则不同，我根据SUSE的文档配置<code>/etc/sysconfig/network</code>下的<code>ifcfg-enp0s25</code>和<code>route-enp0s25</code>文件（其中enp0s25为该系统下我的有线网卡的名称）,但是并没有成功。最后使用了OpenSUSE KDE桌面环境下的图形化网络设置工具绑定成功。</p>
 
@@ -104,11 +111,11 @@ pppoptfile = /etc/ppp/peers/zju-vpn     ; * ppp options file for this lac
 <p>注意几个比较重要的配置：<code>lns</code>，这是l2tp服务器的地址，主机名为lns.zju.edu.cn，但是为了避免受到DNS服务器的影响，这里使用了IP地址；
 <code>local ip</code>，这是上述申请到的静态IP地址；<code>auth file</code>，这是用于l2tp身份认证的文件；<code>pppoptfile</code>，这是用于后续PPP连接的配置文件。</p>
 
-<p>然后在<code>/etc/xl2tpd/l2tp-secrets</code>文件和<code>/etc/ppp/chap-secrets</code>文件中填入自己的闪讯/VPN帐号和密码，格式为<code>&quot;帐号&quot; * &quot;密码&quot;</code>。</p>
+<p>然后在<code>/etc/xl2tpd/l2tp-secrets</code>文件和<code>/etc/ppp/chap-secrets</code>文件中填入自己的闪讯/VPN帐号和密码，格式为<code>&quot;帐号&quot; * &quot;密码&quot;</code>(注意此处的空格非常重要)。</p>
 
 <h2 id="配置ppp连接:1b7d923f42ed8b2e817a63af8923ba77">配置PPP连接</h2>
 
-<p>此处注意确认已安装了用于PPP连接的软件包，Debian下为<code>pppd</code>，OpenSUSE下为<code>smpppd</code>。</p>
+<p>此处注意确认已安装了用于PPP连接的软件包，Debian下为<code>ppp</code>，OpenSUSE下为<code>smpppd</code>。</p>
 
 <p>在<code>/etc/ppp/peers/zju-vpn</code>文件中填入如下配置：</p>
 
@@ -157,8 +164,9 @@ if ! ip addr show eth0 | grep -q &quot;inet&quot;; then
 	exit 1
 fi
 
-# start l2tp deamon
-xl2tpd &amp;&amp; sleep 1
+# restart l2tp deamon
+pkill xl2tpd &amp;&gt; /dev/null
+xl2tpd -c /etc/xl2tpd/xl2tpd.conf &amp;&amp; sleep 1
 
 # connect to vpn
 echo -n &quot;Connect to ZJU VPN...&quot;
