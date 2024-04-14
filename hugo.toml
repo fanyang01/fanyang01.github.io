@@ -1,0 +1,4 @@
+baseURL = 'https://fanyang01.github.io/'
+languageCode = 'en-us'
+title = "Fan Yang's Blog"
+theme = 'hugo-flex'
