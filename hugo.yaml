@@ -1,0 +1,48 @@
+baseURL: https://fanyang01.github.io/
+languageCode: en-us
+title: Fan Yang's Blog
+theme: hugo-flex
+params:
+  color: seagreen
+  katex: 0.16.10
+  math: true
+  footer: >-            # HTML spaces (&#32;) are needed before HTML elements
+    Except where otherwise noted, content on this site is licensed under a &#32;
+    <br><a href="http://creativecommons.org/licenses/by/4.0/" rel="license">
+    Creative Commons Attribution 4.0 International License</a>.
+menu:
+  main:
+    - name: About
+      pageRef: /about
+      weight: 1
+    - name: Posts
+      pageRef: /post
+      weight: 2
+    - name: Tags
+      pageRef: /tags
+      weight: 3
+    - name: Categories
+      pageRef: /categories
+      weight: 4
+    - name: RSS
+      pageRef: /
+      weight: 5
+      params:
+        - format: rss
+    - name: Tools
+      pageRef: /tools
+      weight: 6
+markup:
+  goldmark:
+    extensions:
+      passthrough:
+        delimiters:
+          block:
+          - - \[
+            - \]
+          - - $$
+            - $$
+          inline:
+          - - \( 
+            - \)
+        enable: true
