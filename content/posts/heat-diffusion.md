@@ -1,5 +1,5 @@
 +++
-title = 'From Heat Flow to Generative Models'
+title = 'From The Theory of Heat to Generative Models'
 date = 2024-04-14T11:52:16+08:00
 draft = true
 +++
@@ -60,7 +60,10 @@ where \( \psi(t, \mathbf{x}) \) is the complex-valued wave function, \( m \) is 
 Ok, but how does this relate to generative models? In 1931, Schrödinger presented a paper titled "Über die Umkehrung der Naturgesetze" (On the Reversal of the
 Laws of Nature), in which he studied the time reversal of a diffusion process and defined the problem of finding the probability distribution of a particle at the intermediate times given the its initial and final distributions. This problem is called Schrödinger's Bridge problem now. He showed that the solution to this problem is given by the product of two functions which evolve according to the heat equation in opposite directions in time, and commented that "The most interesting thing about result today is the striking analogy with quantum mechanics". This paper made profound impact in physics and probability theory, one of which is the reversibility of Markov processes studied by Kolmogorov.
 
-Kolmogrov had established the mathematical foundation of Markov processes in 1931 with his famous paper "Über die analytischen Methoden in der Wahrscheinlichkeitsrechnung" (On Analytical Methods in Probability Theory), in which he introduced the fundamental differential equations characterizing stochastic processes, now known as the Kolmogorov equations. For continuous-time processes, the first equation, now known as the Kolmogorov forward equation, is the general form of the Fokker-Planck equation, while the second equation, now known as the Kolmogorov backward equation, was new at that time. Schrödinger's work inspired Kolmogorov to study the time reversal of Markov processes, which led to the papers "On the theory of Markov chains" (1936) and "On the reversibility of the statistical laws of nature" (1937).
+Kolmogrov had established the mathematical foundation of Markov processes in 1931 with his famous paper "Über die analytischen Methoden in der Wahrscheinlichkeitsrechnung" (On Analytical Methods in Probability Theory), in which he introduced the fundamental differential equations characterizing stochastic processes, now known as the Kolmogorov equations. For continuous-time processes, the first equation, now known as the Kolmogorov forward equation, is the general form of the Fokker-Planck equation, while the second equation, now known as the Kolmogorov backward equation, was new at that time. Schrödinger's work inspired Kolmogorov to study the time reversal of Markov processes, which led to the papers "On the theory of Markov chains" (1936) and "On the reversibility of the statistical laws of nature" (1937). As we will see, the core principle of nowadays generative models has its root in these work.
+
+The story is not over yet. Richard Feynman, inspired by the work of Paul Dirac, and based on his 1941 doctoral thesis, published the paper "Space-Time Approach to Non-Relativistic Quantum Mechanics" in 1948, in which he introduced the path integral formulation of quantum mechanics and showed that it is equivalent to the Schrödinger's equation. Mark Kac, inspired by the work of Feynman, developed the Feynman-Kac formula in 1949, further connecting stochastic processes to partial differential equations.
+
 
 # Continuum Mechanics
 
